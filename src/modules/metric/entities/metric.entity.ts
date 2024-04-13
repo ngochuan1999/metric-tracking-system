@@ -1,17 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type CatDocument = HydratedDocument<Metric>;
+export type MetricDocument = HydratedDocument<Metric>;
 
 @Schema({
   timestamps: true,
   collection: 'metrics',
 })
 export class Metric {
-  @Prop()
+  @Prop({ index: true })
   userId: string;
 
-  @Prop()
+  @Prop({ index: true })
   type: string;
 
   @Prop()

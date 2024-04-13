@@ -1,17 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { MetricService } from '../services/metric.service';
 import { CreateMetricDto } from '../dtos/create-metric.dto';
-import { UpdateMetricDto } from '../dtos/update-metric.dto';
+import { GetChartDto, GetMetricDto } from '../dtos/get-metric.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('metric')
+@ApiTags('Metrics')
 export class MetricController {
   constructor(private readonly metricService: MetricService) {}
 
@@ -21,22 +15,12 @@ export class MetricController {
   }
 
   @Get()
-  findAll() {
-    return this.metricService.findAll();
+  getMetricsByType(@Query() getMetricDto: GetMetricDto) {
+    return this.metricService.getMetricsByType(getMetricDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.metricService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMetricDto: UpdateMetricDto) {
-    return this.metricService.update(+id, updateMetricDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.metricService.remove(+id);
+  @Get('chart')
+  getChart(@Query() getChartDto: GetChartDto) {
+    return this.metricService.getChart(getChartDto);
   }
 }
